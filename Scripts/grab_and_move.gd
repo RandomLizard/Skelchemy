@@ -25,7 +25,7 @@ func _process(delta):
 	if (check_if_grabbed()):
 		move(delta)
 	
-	if (position.y > 2000):
+	if (position.y > respawnDistance):
 		respawn()
 
 #endregion
