@@ -11,6 +11,7 @@ var defaultDamp
 
 @export_range(1, 10, 0.5) var handling: float = 0.4
 @export_range(1, 30, 0.5) var dampingControl: float = 15
+@export var respawnDistance: int = 1000  # the point on the y axis an object must reach before respawning
 
 #region built-ins
 func _ready():
