@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://de0r2xxmh8mqp"]
+
+[ext_resource type="Script" path="res://Scripts/grab_and_move.gd" id="1_1t6ff"]
+[ext_resource type="Texture2D" uid="uid://cjtuhaaqq5puk" path="res://Sprites/Textures/Beaker.png" id="2_mxylg"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jx7rj"]
+friction = 0.0
+bounce = 0.44
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gfkx0"]
+size = Vector2(30, 27)
+
+[node name="Beaker" type="RigidBody2D"]
+position = Vector2(319, 160)
+physics_material_override = SubResource("PhysicsMaterial_jx7rj")
+can_sleep = false
+linear_damp = 3.0
+angular_velocity = 0.872665
+script = ExtResource("1_1t6ff")
+handling = 10.0
+dampingControl = 19.0
+respawnDistance = 500
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_mxylg")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-17, -12, -12, -12, -12, 10, 12, 10, 12, -12, 17, -12, 17, 14, -17, 14)
+
+[node name="MouseHitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseHitbox"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_gfkx0")
+
+[connection signal="mouse_entered" from="MouseHitbox" to="." method="_on_mouse_hitbox_mouse_entered"]
+[connection signal="mouse_exited" from="MouseHitbox" to="." method="_on_mouse_hitbox_mouse_exited"]
