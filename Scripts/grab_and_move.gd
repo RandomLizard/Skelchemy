@@ -7,10 +7,13 @@ var screenSpace
 var mousePos
 var spawnPos
 var defaultDamp
+var defaultAngDamp
 
 
 @export_range(1, 10, 0.5) var handling: float = 0.4
 @export_range(1, 30, 0.5) var dampingControl: float = 15
+@export_range(200, 2000, 0.5) var rotationSpeed: float = 1000
+@export_range(0, 20, 1) var angularDampWhenGrabbed: float = 18
 @export var respawnDistance: int = 1000  # the point on the y axis an object must reach before respawning
 
 #region built-ins
@@ -19,6 +22,7 @@ func _ready():
 	_on_size_changed() # This is called to set screenSpace to the initial value
 	spawnPos = position
 	defaultDamp = linear_damp
+	defaultAngDamp = angular_damp
 
 func _process(delta):
 
@@ -43,6 +47,7 @@ func check_if_grabbed():
 	if (Input.is_action_just_released("LeftMouse")):
 		isGrabbed = false
 		gravity_scale = 1
+		angular_damp = defaultAngDamp
 		linear_damp = defaultDamp
 	elif (isGrabbed == true && Input.is_action_pressed("LeftMouse")):
 		isGrabbed = true
@@ -60,11 +65,17 @@ func move(delta):
 	var forceVector
 	
 	myTranslatedPos = myTranslatedPos.lerp(translatedMousePos, t)
-	#print("My Current Position: ", (myTranslatedPos * screenSpace), "\t\tWhere I'm going: ", (translatedMousePos * screenSpace))
 	
 	forceVector = -((myTranslatedPos - translatedMousePos) * screenSpace * delta * (handling * 1000))
 	apply_central_force(forceVector)
-	#position = myTranslatedPos * screenSpace
+	
+	if (Input.is_action_pressed("Q")):
+		apply_torque(-rotationSpeed)
+		angular_damp = angularDampWhenGrabbed
+		
+	if (Input.is_action_pressed("E")):
+		apply_torque(rotationSpeed)
+		angular_damp = angularDampWhenGrabbed
 	
 func respawn():
 	position = spawnPos
@@ -80,6 +91,5 @@ func _on_mouse_hitbox_mouse_exited():
 	
 func _on_size_changed():
 	screenSpace = get_viewport().get_visible_rect().size
-	print("Screen Size is: ", screenSpace)
 	
 #endregion
