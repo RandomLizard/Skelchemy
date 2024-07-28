@@ -1,11 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://de0r2xxmh8mqp"]
+[gd_scene load_steps=7 format=3 uid="uid://de0r2xxmh8mqp"]
 
 [ext_resource type="Script" path="res://Scripts/grab_and_move.gd" id="1_1t6ff"]
 [ext_resource type="Texture2D" uid="uid://cjtuhaaqq5puk" path="res://Sprites/Textures/Beaker.png" id="2_mxylg"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_jx7rj"]
-friction = 0.0
+friction = 0.5
 bounce = 0.44
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_5kwp8"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ufrwh"]
+width = 27
+height = 27
+noise = SubResource("FastNoiseLite_5kwp8")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gfkx0"]
 size = Vector2(30, 27)
@@ -14,12 +21,30 @@ size = Vector2(30, 27)
 position = Vector2(319, 160)
 physics_material_override = SubResource("PhysicsMaterial_jx7rj")
 can_sleep = false
-linear_damp = 3.0
+linear_damp = 1.0
 angular_velocity = 0.872665
 script = ExtResource("1_1t6ff")
 handling = 10.0
 dampingControl = 19.0
 respawnDistance = 500
+
+[node name="Liquid" type="TextureProgressBar" parent="."]
+offset_left = -13.0
+offset_top = -36.0
+offset_right = 14.0
+offset_bottom = 14.0
+fill_mode = 3
+texture_under = SubResource("NoiseTexture2D_ufrwh")
+texture_over = SubResource("NoiseTexture2D_ufrwh")
+texture_progress = SubResource("NoiseTexture2D_ufrwh")
+
+[node name="Button" type="Button" parent="Liquid"]
+layout_mode = 0
+offset_left = 57.0
+offset_top = -38.0
+offset_right = 108.0
+offset_bottom = -7.0
+text = "Fill"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_mxylg")
