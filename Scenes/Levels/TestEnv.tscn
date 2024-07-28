@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://motl26os88al"]
+
+[ext_resource type="Texture2D" uid="uid://dc52835adt1lm" path="res://icon.svg" id="1_gwiq7"]
+[ext_resource type="PackedScene" uid="uid://de0r2xxmh8mqp" path="res://Scenes/Objects/beaker.tscn" id="2_lksq1"]
+[ext_resource type="PackedScene" uid="uid://dbx1lhtsp271f" path="res://Scenes/Objects/falling_water.tscn" id="3_x8hdf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jgf72"]
+size = Vector2(128, 41.5)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(320, 180)
+zoom = Vector2(2, 2)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(319, 199)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+scale = Vector2(1, 0.296875)
+texture = ExtResource("1_gwiq7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 16.25)
+shape = SubResource("RectangleShape2D_jgf72")
+
+[node name="Beaker" parent="." instance=ExtResource("2_lksq1")]
+rotationSpeed = 1805.5
+
+[node name="Beaker2" parent="." instance=ExtResource("2_lksq1")]
+position = Vector2(280, 156)
+angular_damp = 18.018
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+
+[node name="Line2D" type="Line2D" parent="RayCast2D"]
+points = PackedVector2Array(0, 0, 0, 4.59662, 0, 50)
+texture_mode = 1
+
+[node name="Falling_Water" parent="." instance=ExtResource("3_x8hdf")]
